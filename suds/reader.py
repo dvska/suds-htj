@@ -18,6 +18,7 @@
 Contains xml document reader classes.
 """
 
+import urlparse
 
 from suds.sax.parser import Parser
 from suds.transport import Request
@@ -29,6 +30,8 @@ from logging import getLogger
 
 log = getLogger(__name__)
 
+def is_local_file(url):
+    return urlparse.urlparse(url).scheme == ''
 
 class Reader:
     """
@@ -92,7 +95,11 @@ class DocumentReader(Reader):
         store = DocumentStore()
         fp = store.open(url)
         if fp is None:
-            fp = self.options.transport.open(Request(url))
+            # Check whether url is local
+            if is_local_file(url):
+                fp = open(url)
+            else:
+                fp = self.options.transport.open(Request(url))
         content = fp.read()
         fp.close()
         ctx = self.plugins.document.loaded(url=url, document=content)
