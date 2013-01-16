@@ -636,6 +636,11 @@ class SoapClient:
             else:
                 soapenv = soapenv.plain()
             soapenv = soapenv.encode('utf-8')
+            
+            # remove empty nodes
+            import re
+            soapenv = re.sub('(<(\w+)[^<]*?)/>', '', soapenv)
+            
             ctx = plugins.message.sending(envelope=soapenv)
             soapenv = ctx.envelope
             if nosend:
