@@ -1,3 +1,8 @@
+One simple changes on this fork:
+
+ * Empty XML nodes are stripped before sending the payload
+
+
 This is a fork of SUDS with some patches (most, if not all from the bug
 tracker) as SUDS appears to be without a maintainer.
 
