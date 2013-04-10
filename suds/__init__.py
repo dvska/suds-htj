@@ -26,7 +26,7 @@ import sys
 # Project properties
 #
 
-__version__ = '0.4.1-htj'
+__version__ = '0.4.1-htj-3'
 __build__="R705-20120419"
 
 #
