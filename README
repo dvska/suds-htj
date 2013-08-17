@@ -1,9 +1,8 @@
-I am no longer using SUDS and cannot spend time on maintanance, etc. If someone
-wants to take over, feel free to fork the project. The fork over at
-https://bitbucket.org/philpem/suds seem to be active.
+This is a fork of SUDS with patches for EWS (https://github.com/maiiku/EWSWrapper_py) applied.
 
-This is a fork of SUDS with some patches (most, if not all from the bug
-tracker) as SUDS appears to be without a maintainer.
+
+Though this patched version of SUDS works with EWSWrapper 0.2 (04-2012), the original repo was no longer maintained. 
+The SUDS fork over at https://bitbucket.org/philpem/suds seem to be active.
 
 OVERVIEW
 
@@ -19,6 +18,15 @@ For details, visit:
 
 RELEASE-NOTES:
 =================================================
+
+version 0.4.1-ews (2013-08-17):
+  * forked form htj/suds-htj
+  * applied patches to suds/cache.py
+  * applied patches to suds/client.py
+  * applied patches to suds/reader.py
+  * applied patches to suds/sax/parser.py
+  * (patches for uds/sax/date.py left out)
+  * tested with EWSWrapper 0.2 (04-2012)
 
 version 0.3.6 (04-31-09):
   * Change hard coded /tmp/suds to tempfile.gettempdir() and create suds/ on demand.
