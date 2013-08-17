@@ -708,7 +708,10 @@ class SoapClient:
         @type error: L{transport.TransportError}
         """
         status, reason = (error.httpcode, tostr(error))
-        reply = error.fp.read()
+        try:
+          reply = error.fp.read()
+        except:
+          reply = error
         log.debug('http failed:\n%s', reply)
         if status == 500:
             if len(reply) > 0:

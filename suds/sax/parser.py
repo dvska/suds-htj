@@ -132,7 +132,10 @@ class Parser:
             return handler.nodes[0]
         if string is not None:
             source = InputSource(None)
-            source.setByteStream(StringIO(string))
+            try:
+                source.setByteStream(StringIO(string.encode('utf8')))
+            except UnicodeDecodeError:
+                source.setByteStream(StringIO(string))
             sax.parse(source)
             timer.stop()
             metrics.log.debug('%s\nsax duration: %s', string, timer)
