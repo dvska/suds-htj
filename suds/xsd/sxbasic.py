@@ -39,7 +39,7 @@ class RestrictionMatcher:
     """
     def match(self, n):
         return isinstance(n, Restriction)
-    
+
 
 class TypedContent(Content):
     """
@@ -630,9 +630,9 @@ class Include(SchemaObject):
             root.set(TNS, tns)
         else:
             if self.schema.tns[1] != tns:
-                raise Exception, '%s mismatch' % TNS
-                
- 
+                raise Exception('%s mismatch' % TNS)
+
+
     def description(self):
         return ('location')
 

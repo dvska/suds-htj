@@ -41,7 +41,6 @@ Content.extensions.append('real')
 Content.extensions.append('ancestry')
 
 
-
 class Typed(Core):
     """
     A I{typed} marshaller.
@@ -133,9 +132,9 @@ class Typed(Core):
         if current == content.type:
             self.resolver.pop()
         else:
-            raise Exception, \
+            raise Exception(
                 'content (end) mismatch: top=(%s) cont=(%s)' % \
-                (current, content)
+                (current, content))
     
     def node(self, content):
         #

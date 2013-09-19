@@ -92,14 +92,14 @@ class Binding:
     
     def param_defs(self, method):
         """
-        Get parameter definitions.  
+        Get parameter definitions.
         Each I{pdef} is a tuple (I{name}, L{xsd.sxbase.SchemaObject})
         @param method: A servic emethod.
         @type method: I{service.Method}
         @return: A collection of parameter definitions
         @rtype: [I{pdef},..]
         """
-        raise Exception, 'not implemented'
+        raise Exception('not implemented')
 
     def get_message(self, method, args, kwargs):
         """
@@ -348,7 +348,7 @@ class Binding:
         @return: The xml content for the <body/>
         @rtype: [L{Element},..]
         """
-        raise Exception, 'not implemented'
+        raise Exception('not implemented')
     
     def headercontent(self, method):
         """
@@ -401,7 +401,7 @@ class Binding:
         @return: the body content
         @rtype: [L{Element},...]
         """
-        raise Exception, 'not implemented'
+        raise Exception('not implemented')
     
     def body(self, content):
         """
