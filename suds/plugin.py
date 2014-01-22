@@ -205,7 +205,7 @@ class PluginContainer:
                     plugins.append(p)
             return PluginDomain(ctx, plugins)
         else:
-            raise Exception('plugin domain (%s), invalid' % name)
+            raise AttributeError('plugin domain (%s), invalid' % name)
 
 
 class PluginDomain:

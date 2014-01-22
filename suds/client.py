@@ -656,7 +656,7 @@ class SoapClient:
             if e.httpcode in (202, 204):
                 result = None
             else:
-                log.error(self.last_sent())
+                log.error(self.last_sent(), exc_info=True)
                 result = self.failed(binding, e)
         return result
 
