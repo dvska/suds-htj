@@ -1,6 +1,6 @@
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the (LGPL) GNU Lesser General Public License as
-# published by the Free Software Foundation; either version 3 of the 
+# published by the Free Software Foundation; either version 3 of the
 # License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -26,9 +26,8 @@ import sys
 # Project properties
 #
 
-__version__ = '0.4.1-htj'
-__build__ = "R705-20120419"
-
+__version__ = '0.4.1-ews'
+__build__="R705-20120419"
 
 #
 # Exceptions
