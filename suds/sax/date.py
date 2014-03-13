@@ -273,7 +273,6 @@ class FixedOffsetTimezone(datetime.tzinfo):
         total_seconds -= minutes * 60
 
         seconds = total_seconds // 1
-        total_seconds -= seconds
 
         if seconds:
             return '%s%02d:%02d:%02d' % (sign, hours, minutes, seconds)
@@ -364,7 +363,8 @@ class LocalTimezone(datetime.tzinfo):
         else:
             return time.tzname[0]
 
-    def __is_daylight_time(self, dt):
+    @staticmethod
+    def __is_daylight_time(dt):
         if not time.daylight:
             return False
         time_tuple = dt.replace(tzinfo=None).timetuple()
@@ -424,6 +424,7 @@ def time_from_match(match_object):
     return datetime.time(hour, minute, second, microsecond)
 
 
+# noinspection PyAugmentAssignment
 def tzinfo_from_match(match_object):
     """Create a timezone information object from a regular expression match.
 
@@ -453,7 +454,7 @@ def tzinfo_from_match(match_object):
             tzinfo = UtcTimezone()
         else:
             tz_multiplier = int('%s1' % (tz_sign, ))
-            tz_delta = tz_multiplier * tz_delta
+            tz_delta *= tz_multiplier
             tzinfo = FixedOffsetTimezone(tz_delta)
 
     return tzinfo

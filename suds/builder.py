@@ -19,8 +19,10 @@ The I{builder} module provides an wsdl/xsd defined types factory
 """
 
 from logging import getLogger
+
 from suds import *
 from suds.sudsobject import Factory
+
 
 log = getLogger(__name__)
 
@@ -92,14 +94,16 @@ class Builder:
                     continue
                 self.process(data, child, history[:])
 
-    def add_attributes(self, data, type):
+    @staticmethod
+    def add_attributes(data, type):
         """ add required attributes """
         for attr, ancestry in type.attributes():
             name = '_%s' % attr.name
             value = attr.get_default()
             setattr(data, name, value)
                 
-    def skip_child(self, child, ancestry):
+    @staticmethod
+    def skip_child(child, ancestry):
         """ get whether or not to skip the specified child """
         if child.any(): return True
         for x in ancestry:
@@ -107,7 +111,8 @@ class Builder:
                 return True
         return False
     
-    def ordering(self, type):
+    @staticmethod
+    def ordering(type):
         """ get the ordering """
         result = []
         for child, ancestry in type.resolve():

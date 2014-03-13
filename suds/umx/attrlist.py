@@ -18,8 +18,6 @@
 Provides filtered attribute list classes.
 """
 
-from suds import *
-from suds.umx import *
 from suds.sax import Namespace
 
 
@@ -70,7 +68,8 @@ class AttrList:
                 return a.value
             return None
 
-    def skip(self, attr):
+    @staticmethod
+    def skip(attr):
         """
         Get whether to skip (filter-out) the specified attribute.
         @param attr: An attribute.

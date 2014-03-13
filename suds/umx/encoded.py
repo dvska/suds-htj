@@ -19,10 +19,11 @@ Provides soap encoded unmarshaller classes.
 """
 
 from logging import getLogger
-from suds import *
+
 from suds.umx import *
 from suds.umx.typed import Typed
-from suds.sax import splitPrefix, Namespace
+from suds.sax import Namespace
+
 
 log = getLogger(__name__)
 
@@ -112,7 +113,8 @@ class Encoded(Typed):
                 child.set(attr, xty)
         return self
 
-    def promote(self, content):
+    @staticmethod
+    def promote(content):
         """
         Promote (replace) the content.data with the first attribute
         of the current content.data that is a I{list}.  Note: the 

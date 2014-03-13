@@ -19,8 +19,7 @@ Provides I{marshaller} core classes.
 """
 
 from logging import getLogger
-from suds import *
-from suds.mx import *
+
 from suds.mx.appender import ContentAppender
 from suds.sax.element import Element
 from suds.sax.document import Document
@@ -56,7 +55,7 @@ class Core:
             content.tag = content.value.__class__.__name__
         document = Document()
         if isinstance(content.value, Property):
-            root = self.node(content)
+            self.node(content)  #? TODO
             self.append(document, content)
         else:
             self.append(document, content)
@@ -75,13 +74,15 @@ class Core:
             self.appender.append(parent, content)
             self.end(parent, content)
 
-    def reset(self):
+    @staticmethod
+    def reset():
         """
         Reset the marshaller.
         """
         pass
 
-    def node(self, content):
+    @staticmethod
+    def node(content):
         """
         Create and return an XML node.
         @param content: The content for which proccessing has been suspended.
@@ -91,7 +92,8 @@ class Core:
         """
         return Element(content.tag)
     
-    def start(self, content):
+    @staticmethod
+    def start(content):
         """
         Appending this content has started.
         @param content: The content for which proccessing has started.
@@ -101,7 +103,8 @@ class Core:
         """
         return True
     
-    def suspend(self, content):
+    @staticmethod
+    def suspend(content):
         """
         Appending this content has suspended.
         @param content: The content for which proccessing has been suspended.
@@ -109,7 +112,8 @@ class Core:
         """
         pass
     
-    def resume(self, content):
+    @staticmethod
+    def resume(content):
         """
         Appending this content has resumed.
         @param content: The content for which proccessing has been resumed.
@@ -117,7 +121,8 @@ class Core:
         """
         pass
 
-    def end(self, parent, content):
+    @staticmethod
+    def end(parent, content):
         """
         Appending this content has ended.
         @param parent: The parent node ending.
@@ -127,7 +132,8 @@ class Core:
         """
         pass
     
-    def setnil(self, node, content):
+    @staticmethod
+    def setnil(node, content):
         """
         Set the value of the I{node} to nill.
         @param node: A I{nil} node.
@@ -137,7 +143,8 @@ class Core:
         """
         pass
 
-    def setdefault(self, node, content):
+    @staticmethod
+    def setdefault(node, content):
         """
         Set the value of the I{node} to a default value.
         @param node: A I{nil} node.
@@ -148,7 +155,8 @@ class Core:
         """
         pass
     
-    def optional(self, content):
+    @staticmethod
+    def optional(content):
         """
         Get whether the specified content is optional.
         @param content: The content which to check.

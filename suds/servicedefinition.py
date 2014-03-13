@@ -19,9 +19,11 @@ The I{service definition} provides a textual representation of a service.
 """
 
 from logging import getLogger
+
 from suds import *
 import suds.metrics as metrics
 from suds.sax import Namespace
+
 
 log = getLogger(__name__)
 
@@ -102,14 +104,14 @@ class ServiceDefinition:
         p = (port, [])
         self.ports.append(p)
         return p
-            
+
     def getprefixes(self):
         """
         Add prefixes foreach namespace referenced by parameter types.
         """
         namespaces = []
         for l in (self.params, self.types):
-            for t,r in l:
+            for t, r in l:
                 ns = r.namespace()
                 if ns[1] is None: continue
                 if ns[1] in namespaces: continue
@@ -121,7 +123,6 @@ class ServiceDefinition:
                 if ns[1] is None: continue
                 if ns[1] in namespaces: continue
                 namespaces.append(ns[1])
-        i = 0
         namespaces.sort()
         for u in namespaces:
             p = self.nextprefix()
@@ -219,10 +220,10 @@ class ServiceDefinition:
                 s.append(indent(4))
                 sig.append(m[0])
                 sig.append('(')
-                for p in m[1]:
-                    sig.append(self.xlate(p[1]))
+                for pp in m[1]:
+                    sig.append(self.xlate(pp[1]))
                     sig.append(' ')
-                    sig.append(p[0])
+                    sig.append(pp[0])
                     sig.append(', ')
                 sig.append(')')
                 try:

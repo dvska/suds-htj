@@ -19,7 +19,6 @@ The plugin module provides classes for implementation
 of suds plugins.
 """
 
-from suds import *
 from logging import getLogger
 
 log = getLogger(__name__)
@@ -75,7 +74,8 @@ class InitPlugin(Plugin):
     The base class for suds I{init} plugins.
     """
 
-    def initialized(self, context):
+    @staticmethod
+    def initialized(context):
         """
         Suds client initialization.
         Called after wsdl the has been loaded.  Provides the plugin
@@ -91,7 +91,8 @@ class DocumentPlugin(Plugin):
     The base class for suds I{document} plugins.
     """
 
-    def loaded(self, context):
+    @staticmethod
+    def loaded(context):
         """
         Suds has loaded a WSDL/XSD document.  Provides the plugin
         with an opportunity to inspect/modify the unparsed document.
@@ -101,7 +102,8 @@ class DocumentPlugin(Plugin):
         """
         pass
 
-    def parsed(self, context):
+    @staticmethod
+    def parsed(context):
         """
         Suds has parsed a WSDL/XSD document.  Provides the plugin
         with an opportunity to inspect/modify the parsed document.
@@ -117,7 +119,8 @@ class MessagePlugin(Plugin):
     The base class for suds I{soap message} plugins.
     """
 
-    def marshalled(self, context):
+    @staticmethod
+    def marshalled(context):
         """
         Suds will send the specified soap envelope.
         Provides the plugin with the opportunity to inspect/modify
@@ -128,7 +131,8 @@ class MessagePlugin(Plugin):
         """
         pass
 
-    def sending(self, context):
+    @staticmethod
+    def sending(context):
         """
         Suds will send the specified soap envelope.
         Provides the plugin with the opportunity to inspect/modify
@@ -139,7 +143,8 @@ class MessagePlugin(Plugin):
         """
         pass
 
-    def received(self, context):
+    @staticmethod
+    def received(context):
         """
         Suds has received the specified reply.
         Provides the plugin with the opportunity to inspect/modify
@@ -150,7 +155,8 @@ class MessagePlugin(Plugin):
         """
         pass
 
-    def parsed(self, context):
+    @staticmethod
+    def parsed(context):
         """
         Suds has sax parsed the received reply.
         Provides the plugin with the opportunity to inspect/modify
@@ -161,7 +167,8 @@ class MessagePlugin(Plugin):
         """
         pass
 
-    def unmarshalled(self, context):
+    @staticmethod
+    def unmarshalled(context):
         """
         Suds has unmarshalled the received reply.
         Provides the plugin with the opportunity to inspect/modify
@@ -182,7 +189,7 @@ class PluginContainer:
     @type ctxclass: dict
     """
 
-    domains = {\
+    domains = {
         'init': (InitContext, InitPlugin),
         'document': (DocumentContext, DocumentPlugin),
         'message': (MessageContext, MessagePlugin),

@@ -21,8 +21,10 @@ found in the document.
 """
 
 from logging import getLogger
+from urlparse import urljoin
+import re
+
 from suds import *
-from suds.sax import splitPrefix
 from suds.sax.element import Element
 from suds.bindings.document import Document
 from suds.bindings.rpc import RPC, Encoded
@@ -30,10 +32,7 @@ from suds.xsd import qualify, Namespace
 from suds.xsd.schema import Schema, SchemaCollection
 from suds.xsd.query import ElementQuery
 from suds.sudsobject import Object, Facade, Metadata
-from suds.reader import DocumentReader, DefinitionsReader
-from urlparse import urljoin
-import re
-from . import soaparray
+from suds.reader import DocumentReader
 
 
 log = getLogger(__name__)
@@ -164,7 +163,8 @@ class Definitions(WObject):
             self.add_methods(s)
         log.debug("wsdl at '%s' loaded:\n%s", url, self)
 
-    def mktns(self, root):
+    @staticmethod
+    def mktns(root):
         """ Get/create the target namespace """
         tns = root.get('targetNamespace')
         prefix = root.findPrefix(tns)
@@ -222,7 +222,7 @@ class Definitions(WObject):
             container.add(schema)
         self.schema = container.load(self.options)
         for s in [t.schema() for t in self.types if t.imported()]:
-            self.schema.merge(s)
+            self.schema.merge(s)  # TODO fixme
         return self.schema
 
     def add_methods(self, service):
@@ -247,7 +247,7 @@ class Definitions(WObject):
                 m.binding.input = bindings.get(key)
                 key = '/'.join((op.soap.style, op.soap.output.body.use))
                 m.binding.output = bindings.get(key)
-                op = ptype.operation(name)
+                ptype.operation(name)
                 p.methods[name] = m
 
     def set_wrapped(self):
@@ -332,7 +332,8 @@ class Import(WObject):
         self.imported = d
         log.debug('imported (WSDL):\n%s', d)
 
-    def import_schema(self, definitions, d):
+    @staticmethod
+    def import_schema(definitions, d):
         """ import schema as <types/> content """
         if not len(definitions.types):
             types = Types.create(definitions)
@@ -610,7 +611,8 @@ class Binding(NamedObject):
             soap.faults = faults
             self.operations[op.name] = op
 
-    def body(self, definitions, body, root):
+    @staticmethod
+    def body(definitions, body, root):
         """ add the input/output body properties """
         if root is None:
             body.use = 'literal'
@@ -630,7 +632,8 @@ class Binding(NamedObject):
             prefix = root.findPrefix(ns, 'b0')
             body.namespace = (prefix, ns)
 
-    def header(self, definitions, parent, root):
+    @staticmethod
+    def header(definitions, parent, root):
         """ add the input/output header properties """
         if root is None:
             return

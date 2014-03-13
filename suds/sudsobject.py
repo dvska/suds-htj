@@ -21,8 +21,10 @@ wsdl/xsd defined types.
 """
 
 from logging import getLogger
-from suds import *
 from new import classobj
+
+from suds import *
+
 
 log = getLogger(__name__)
 
@@ -96,7 +98,8 @@ class Factory:
     cache = {}
 
     @classmethod
-    def subclass(cls, name, bases, dict={}):
+    def subclass(cls, name, bases, dict=None):
+        if not dict: dict = {}
         if not isinstance(bases, tuple):
             bases = (bases,)
         name = name.encode('utf-8')
@@ -108,7 +111,8 @@ class Factory:
         return subclass
 
     @classmethod
-    def object(cls, classname=None, dict={}):
+    def object(cls, classname=None, dict=None):
+        if not dict: dict = {}
         if classname is not None:
             subclass = cls.subclass(classname, Object)
             inst = subclass()
@@ -197,7 +201,8 @@ class Iter:
                 return (k, v)
         raise StopIteration()
 
-    def __keylist(self, sobject):
+    @staticmethod
+    def __keylist(sobject):
         keylist = sobject.__keylist__
         try:
             keyset = set(keylist)
@@ -368,7 +373,8 @@ class Printer:
         h.pop()
         return ''.join(s)
 
-    def unwrap(self, d, item):
+    @staticmethod
+    def unwrap(d, item):
         """ translate (unwrap) using an optional wrapper function """
         nopt = (lambda x: x)
         try:
@@ -383,7 +389,8 @@ class Printer:
             pass
         return item
 
-    def exclude(self, d, item):
+    @staticmethod
+    def exclude(d, item):
         """ check metadata for excluded items """
         try:
             md = d.__metadata__

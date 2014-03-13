@@ -21,11 +21,12 @@ Contains classes for basic HTTP transport implementations.
 import urllib2 as u2
 import base64
 import socket
-from suds.transport import *
-from suds.properties import Unskin
-from urlparse import urlparse
 from cookielib import CookieJar
 from logging import getLogger
+
+from suds.transport import *
+from suds.properties import Unskin
+
 
 log = getLogger(__name__)
 
@@ -64,7 +65,6 @@ class HttpTransport(Transport):
             raise TransportError(str(e), e.code, e.fp)
 
     def send(self, request):
-        result = None
         url = request.url
         msg = request.message
         headers = request.headers
@@ -134,11 +134,10 @@ class HttpTransport(Transport):
         @return: A list of handlers to be installed in the opener.
         @rtype: [Handler,...]
         """
-        handlers = []
-        handlers.append(u2.ProxyHandler(self.proxy))
-        return handlers
+        return [u2.ProxyHandler(self.proxy)]  # handlers
 
-    def u2ver(self):
+    @staticmethod
+    def u2ver():
         """
         Get the major/minor version of the urllib2 lib.
         @return: The urllib2 version.
@@ -152,7 +151,7 @@ class HttpTransport(Transport):
             log.exception(e)
             return 0
 
-    def __deepcopy__(self, memo={}):
+    def __deepcopy__(self, memo=None):
         clone = self.__class__()
         p = Unskin(self.options)
         cp = Unskin(clone.options)

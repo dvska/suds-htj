@@ -19,13 +19,13 @@ Contains xml document reader classes.
 """
 
 import urlparse
+from logging import getLogger
 
 from suds.sax.parser import Parser
 from suds.transport import Request
 from suds.cache import Cache, NoCache
 from suds.store import DocumentStore
 from suds.plugin import PluginContainer
-from logging import getLogger
 
 
 log = getLogger(__name__)
@@ -48,7 +48,8 @@ class Reader:
         self.options = options
         self.plugins = PluginContainer(options.plugins)
 
-    def mangle(self, name, x):
+    @staticmethod
+    def mangle(name, x):
         """
         Mangle the name by hashing the I{name} and appending I{x}.
         @return: the mangled name.

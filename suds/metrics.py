@@ -21,7 +21,6 @@ designed for collecting and reporting performance metrics.
 
 import time
 from logging import getLogger
-from suds import *
 from math import modf
 
 log = getLogger(__name__)
@@ -43,7 +42,7 @@ class Timer:
         return self
 
     def duration(self):
-        return ( self.stopped - self.started )
+        return self.stopped - self.started
 
     def __str__(self):
         if self.started == 0:

@@ -19,8 +19,9 @@ Provides classes for handling soap multirefs.
 """
 
 from logging import getLogger
-from suds import *
+
 from suds.sax.element import Element
+
 
 log = getLogger(__name__)
 
@@ -107,7 +108,8 @@ class MultiRef:
             key = '#%s' % id
             self.catalog[key] = child
 
-    def soaproot(self, node):
+    @staticmethod
+    def soaproot(node):
         """
         Get whether the specified I{node} is a soap encoded root.
         This is determined by examining @soapenc:root='1'.

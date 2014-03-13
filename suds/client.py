@@ -19,17 +19,18 @@ The I{2nd generation} service proxy provides access to web services.
 See I{README.txt}
 """
 
+from cookielib import CookieJar
+from copy import deepcopy
+from logging import getLogger
+
 import suds
 import suds.metrics as metrics
-from cookielib import CookieJar
 from suds import *
 from suds.reader import DefinitionsReader
 from suds.transport import TransportError, Request
 from suds.transport.https import HttpAuthenticated
 from suds.servicedefinition import ServiceDefinition
 from suds import sudsobject
-from sudsobject import Factory as InstFactory
-from sudsobject import Object
 from suds.resolver import PathResolver
 from suds.builder import Builder
 from suds.wsdl import Definitions
@@ -38,10 +39,11 @@ from suds.sax.document import Document
 from suds.sax.parser import Parser
 from suds.options import Options
 from suds.properties import Unskin
-from urlparse import urlparse
-from copy import deepcopy
 from suds.plugin import PluginContainer
-from logging import getLogger
+
+from sudsobject import Factory as InstFactory
+from sudsobject import Object
+
 
 log = getLogger(__name__)
 
@@ -548,7 +550,8 @@ class Method:
         """ get faults option """
         return self.client.options.faults
 
-    def clientclass(self, kwargs):
+    @staticmethod
+    def clientclass(kwargs):
         """ get soap client class """
         if SimClient.simulation(kwargs):
             return SimClient
@@ -593,7 +596,6 @@ class SoapClient:
         """
         timer = metrics.Timer()
         timer.start()
-        result = None
         binding = self.method.binding.input
         soapenv = binding.get_message(self.method, args, kwargs)
         timer.stop()
@@ -618,7 +620,6 @@ class SoapClient:
         @return: The reply to the sent message.
         @rtype: I{builtin} or I{subclass of} L{Object}
         """
-        result = None
         location = self.location()
         binding = self.method.binding.input
         transport = self.options.transport
@@ -852,7 +853,3 @@ class RequestContext:
         @type error: A suds I{TransportError}.
         """
         return self.client.failed(self.binding, error)
-<<<<<<< HEAD
-        
-=======
->>>>>>> d9608bd6a30b62b0e2d8f2d6aa59928288efed40

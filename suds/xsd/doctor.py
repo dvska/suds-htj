@@ -20,9 +20,11 @@ schema(s).
 """
 
 from logging import getLogger
-from suds.sax import splitPrefix, Namespace
+
+from suds.sax import Namespace
 from suds.sax.element import Element
 from suds.plugin import DocumentPlugin, DocumentContext
+
 
 log = getLogger(__name__)
 
@@ -101,7 +103,7 @@ class TnsFilter:
         else:
             matched = 1
         itself = ( ns == tns )
-        return ( matched and not itself )
+        return matched and not itself
     
 
 class Import:

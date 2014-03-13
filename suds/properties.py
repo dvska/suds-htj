@@ -29,7 +29,8 @@ class AutoLinker(object):
     management between a L{Properties} object and the L{Properties}
     contained within I{values}.
     """
-    def updated(self, properties, prev, next):
+    @staticmethod
+    def updated(properties, prev, next):
         """
         Notification that a values was updated and the linkage
         between the I{properties} contained with I{prev} need to
@@ -435,8 +436,7 @@ class Properties:
         return value
 
     def str(self, history):
-        s = []
-        s.append('Definitions:')
+        s = ['Definitions:']
         for d in self.definitions.values():
             s.append('\t%s' % repr(d))
         s.append('Content:')
@@ -484,7 +484,7 @@ class Skin(object):
 
 
 class Unskin(object):
-    def __new__(self, *args, **kwargs):
+    def __new__(cls, *args, **kwargs):
         return args[0].__pts__
 
 

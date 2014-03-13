@@ -19,12 +19,14 @@ Provides classes for (WS) SOAP bindings.
 """
 
 from logging import getLogger
+from copy import deepcopy
+
 from suds import *
 from suds.sax import Namespace
 from suds.sax.parser import Parser
 from suds.sax.document import Document
 from suds.sax.element import Element
-from suds.sudsobject import Factory, Object
+from suds.sudsobject import Factory
 from suds.mx import Content
 from suds.mx.literal import Literal as MxLiteral
 from suds.umx.basic import Basic as UmxBasic
@@ -34,7 +36,7 @@ from suds.xsd.query import TypeQuery, ElementQuery
 from suds.xsd.sxbasic import Element as SchemaElement
 from suds.options import Options
 from suds.plugin import PluginContainer
-from copy import deepcopy 
+
 
 log = getLogger(__name__)
 
@@ -90,7 +92,8 @@ class Binding:
         """
         return MxLiteral(self.schema(), self.options().xstq)
     
-    def param_defs(self, method):
+    @staticmethod
+    def param_defs(method):
         """
         Get parameter definitions.
         Each I{pdef} is a tuple (I{name}, L{xsd.sxbase.SchemaObject})
@@ -177,7 +180,7 @@ class Binding:
         if fault is None:
             return
         unmarshaller = self.unmarshaller(False)
-        p = unmarshaller.process(fault)
+        p = unmarshaller.process(fault)  # TODO fixme
         if self.options().faults:
             raise WebFault(p, fault)
         return self
@@ -260,7 +263,7 @@ class Binding:
         soapbody = soapenv.getChild('Body')
         fault = soapbody.getChild('Fault')
         unmarshaller = self.unmarshaller(False)
-        p = unmarshaller.process(fault)
+        p = unmarshaller.process(fault)  # TODO fixme
         if self.options().faults:
             raise WebFault(p, faultroot)
         return (faultroot, p.detail)
@@ -308,7 +311,8 @@ class Binding:
         content = Content(tag=hdef[0], value=object, type=hdef[1])
         return marshaller.process(content)
             
-    def envelope(self, header, body):
+    @staticmethod
+    def envelope(header, body):
         """
         Build the B{<Envelope/>} for an soap outbound message.
         @param header: The soap message B{header}.
@@ -324,7 +328,8 @@ class Binding:
         env.append(body)
         return env
     
-    def header(self, content):
+    @staticmethod
+    def header(content):
         """
         Build the B{<Body/>} for an soap outbound message.
         @param content: The header content.
@@ -336,7 +341,8 @@ class Binding:
         header.append(content)
         return header
     
-    def bodycontent(self, method, args, kwargs):
+    @staticmethod
+    def bodycontent(method, args, kwargs):
         """
         Get the content for the soap I{body} node.
         @param method: A service method.
@@ -391,7 +397,8 @@ class Binding:
                 content.append(h)
         return content
     
-    def replycontent(self, method, body):
+    @staticmethod
+    def replycontent(method, body):
         """
         Get the reply body content.
         @param method: A service method.
@@ -403,7 +410,8 @@ class Binding:
         """
         raise Exception('not implemented')
     
-    def body(self, content):
+    @staticmethod
+    def body(content):
         """
         Build the B{<Body/>} for an soap outbound message.
         @param content: The body content.

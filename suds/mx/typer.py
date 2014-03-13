@@ -19,10 +19,11 @@ Provides sx typing classes.
 """
 
 from logging import getLogger
-from suds import *
+
 from suds.mx import *
 from suds.sax import Namespace as NS
 from suds.sax.text import Text
+
 
 log = getLogger(__name__)
 
@@ -109,7 +110,7 @@ class Typer:
             p = 'ns%d' % n
             u = node.resolvePrefix(p, default=None)
             if u is None or u == ns[1]:
-                return (p, ns[1])
+                return p, ns[1]
         raise Exception('auto prefix, exhausted')
     
     @classmethod

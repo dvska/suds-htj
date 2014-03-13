@@ -579,7 +579,8 @@ class DocumentStore:
             reason = 'location "%s" not in document store' % location
             raise Exception(reason)
         
-    def split(self, url):
+    @staticmethod
+    def split(url):
         """
         Split the url into I{protocol} and I{location}
         @param url: A URL.

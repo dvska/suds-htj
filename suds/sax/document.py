@@ -19,9 +19,9 @@ Provides XML I{document} classes.
 """
 
 from logging import getLogger
-from suds import *
-from suds.sax import *
+
 from suds.sax.element import Element
+
 
 log = getLogger(__name__)
 
@@ -42,17 +42,14 @@ class Document(Element):
             return None
 
     def str(self):
-        s = []
-        s.append(self.DECL)
-        s.append('\n')
+        s = [self.DECL, '\n']
         root = self.root()
         if root is not None:
             s.append(root.str())
         return ''.join(s)
 
     def plain(self):
-        s = []
-        s.append(self.DECL)
+        s = [self.DECL]
         root = self.root()
         if root is not None:
             s.append(root.plain())

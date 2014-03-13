@@ -21,10 +21,12 @@ provide wsdl/xsd named type resolution.
 
 import re
 from logging import getLogger
+
 from suds import *
 from suds.sax import splitPrefix, Namespace
 from suds.sudsobject import Object
-from suds.xsd.query import BlindQuery, TypeQuery, qualify
+from suds.xsd.query import BlindQuery, qualify
+
 
 log = getLogger(__name__)
 
@@ -123,7 +125,6 @@ class PathResolver(Resolver):
         @return: The root.
         @rtype: L{xsd.sxbase.SchemaObject}
         """
-        result = None
         name = parts[0]
         log.debug('searching schema for (%s)', name)
         qref = self.qualify(parts[0])
@@ -136,7 +137,8 @@ class PathResolver(Resolver):
             log.debug('found (%s) as (%s)', name, Repr(result))
         return result
     
-    def branch(self, root, parts):
+    @staticmethod
+    def branch(root, parts):
         """
         Traverse the path until the leaf is reached.
         @param parts: A list of path parts.
@@ -159,7 +161,8 @@ class PathResolver(Resolver):
                 log.debug('found (%s) as (%s)', name, Repr(result))
         return result
     
-    def leaf(self, parent, parts):
+    @staticmethod
+    def leaf(parent, parts):
         """
         Find the leaf.
         @param parts: A list of path parts.
@@ -291,7 +294,8 @@ class TreeResolver(Resolver):
         """
         return len(self.stack)
     
-    def getchild(self, name, parent):
+    @staticmethod
+    def getchild(name, parent):
         """ get a child by name """
         log.debug('searching parent (%s) for (%s)', Repr(parent), name)
         if name.startswith('@'):
@@ -339,7 +343,7 @@ class NodeResolver(TreeResolver):
             return result
         if push:
             frame = Frame(result, resolved=known, ancestry=ancestry)
-            pushed = self.push(frame)
+            self.push(frame)
         if resolved:
             result = result.resolve()
         return result
@@ -427,7 +431,7 @@ class GraphResolver(TreeResolver):
             known = self.known(object)
         if push:
             frame = Frame(result, resolved=known, ancestry=ancestry)
-            pushed = self.push(frame)
+            self.push(frame)
         if resolved:
             if known is None:
                 result = result.resolve()
@@ -456,7 +460,8 @@ class GraphResolver(TreeResolver):
         else:
             return container.wsdl
     
-    def known(self, object):
+    @staticmethod
+    def known(object):
         """ get the type specified in the object's metadata """
         try:
             md = object.__metadata__

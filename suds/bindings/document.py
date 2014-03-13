@@ -19,9 +19,10 @@ Provides classes for the (WS) SOAP I{document/literal}.
 """
 
 from logging import getLogger
-from suds import *
+
 from suds.bindings.binding import Binding
 from suds.sax.element import Element
+
 
 log = getLogger(__name__)
 
@@ -76,7 +77,8 @@ class Document(Binding):
         else:
             return body.children
         
-    def document(self, wrapper):
+    @staticmethod
+    def document(wrapper):
         """
         Get the document root.  For I{document/literal}, this is the
         name of the wrapper element qualifed by the schema tns.
@@ -146,7 +148,8 @@ class Document(Binding):
             result += rts
         return result
     
-    def bychoice(self, ancestry):
+    @staticmethod
+    def bychoice(ancestry):
         """
         The ancestry contains a <choice/>
         @param ancestry: A list of ancestors.

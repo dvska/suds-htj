@@ -19,7 +19,7 @@ Provides base classes for XML->object I{unmarshalling}.
 """
 
 from logging import getLogger
-from suds import *
+
 from suds.umx import *
 from suds.umx.attrlist import AttrList
 from suds.sax.text import Text
@@ -115,7 +115,8 @@ class Core:
             value = attr.value
             self.append_attribute(name, value, content)
             
-    def append_attribute(self, name, value, content):
+    @staticmethod
+    def append_attribute(name, value, content):
         """
         Append an attribute name/value into L{Content.data}.
         @param name: The attribute name
@@ -154,7 +155,8 @@ class Core:
             else:
                 setattr(content.data, key, cval)
     
-    def append_text(self, content):
+    @staticmethod
+    def append_text(content):
         """
         Append text nodes into L{Content.data}
         @param content: The current content being unmarshalled.
@@ -166,7 +168,8 @@ class Core:
     def reset(self):
         pass
 
-    def start(self, content):
+    @staticmethod
+    def start(content):
         """
         Processing on I{node} has started.  Build and return
         the proper object.
@@ -177,7 +180,8 @@ class Core:
         """
         content.data = Factory.object(content.node.name)
     
-    def end(self, content):
+    @staticmethod
+    def end(content):
         """
         Processing on I{node} has ended.
         @param content: The current content being unmarshalled.
@@ -193,9 +197,10 @@ class Core:
         @return: True if bounded, else False
         @rtype: boolean
         '"""
-        return ( not self.unbounded(content) )
+        return not self.unbounded(content)
     
-    def unbounded(self, content):
+    @staticmethod
+    def unbounded(content):
         """
         Get whether the object is unbounded (a list).
         @param content: The current content being unmarshalled.
@@ -205,7 +210,8 @@ class Core:
         '"""
         return False
     
-    def nillable(self, content):
+    @staticmethod
+    def nillable(content):
         """
         Get whether the object is nillable.
         @param content: The current content being unmarshalled.

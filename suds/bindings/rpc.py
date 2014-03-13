@@ -19,11 +19,12 @@ Provides classes for the (WS) SOAP I{rpc/literal} and I{rpc/encoded} bindings.
 """
 
 from logging import getLogger
-from suds import *
+
 from suds.mx.encoded import Encoded as MxEncoded
 from suds.umx.encoded import Encoded as UmxEncoded
 from suds.bindings.binding import Binding, envns
 from suds.sax.element import Element
+
 
 log = getLogger(__name__)
 
@@ -62,7 +63,8 @@ class RPC(Binding):
     def replycontent(self, method, body):
         return body[0].children
         
-    def method(self, method):
+    @staticmethod
+    def method(method):
         """
         Get the document root.  For I{rpc/(literal|encoded)}, this is the
         name of the method qualifed by the schema tns.

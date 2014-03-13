@@ -25,6 +25,7 @@ class TransportError(Exception):
         self.httpcode = httpcode
         self.fp = fp
 
+
 class Request:
     """
     A transport request
@@ -46,13 +47,9 @@ class Request:
         self.url = url
         self.headers = {}
         self.message = message
-        
+
     def __str__(self):
-        s = []
-        s.append('URL:%s' % self.url)
-        s.append('HEADERS: %s' % self.headers)
-        s.append('MESSAGE:')
-        s.append(self.message)
+        s = ['URL:%s' % self.url, 'HEADERS: %s' % self.headers, 'MESSAGE:', self.message]
         return '\n'.join(s)
 
 
@@ -79,13 +76,9 @@ class Reply:
         self.code = code
         self.headers = headers
         self.message = message
-        
+
     def __str__(self):
-        s = []
-        s.append('CODE: %s' % self.code)
-        s.append('HEADERS: %s' % self.headers)
-        s.append('MESSAGE:')
-        s.append(self.message)
+        s = ['CODE: %s' % self.code, 'HEADERS: %s' % self.headers, 'MESSAGE:', self.message]
         return '\n'.join(s)
 
 
@@ -93,16 +86,18 @@ class Transport:
     """
     The transport I{interface}.
     """
-    
+
     def __init__(self):
         """
         Constructor.
         """
         from suds.transport.options import Options
+
         self.options = Options()
         del Options
-    
-    def open(self, request):
+
+    @staticmethod
+    def open(request):
         """
         Open the url in the specified request.
         @param request: A transport request.
@@ -112,8 +107,9 @@ class Transport:
         @raise TransportError: On all transport errors.
         """
         raise Exception('not-implemented')
-    
-    def send(self, request):
+
+    @staticmethod
+    def send(request):
         """
         Send soap message.  Implementations are expected to handle:
             - proxies

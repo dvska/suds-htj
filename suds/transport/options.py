@@ -18,8 +18,6 @@
 Contains classes for transport options.
 """
 
-
-from suds.transport import *
 from suds.properties import *
 
    

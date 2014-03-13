@@ -19,6 +19,7 @@ Provides literal I{marshaller} classes.
 """
 
 from logging import getLogger
+
 from suds import *
 from suds.mx import *
 from suds.mx.core import Core
@@ -26,6 +27,7 @@ from suds.mx.typer import Typer
 from suds.resolver import GraphResolver, Frame
 from suds.sax.element import Element
 from suds.sudsobject import Factory
+
 
 log = getLogger(__name__)
 
@@ -261,7 +263,8 @@ class Typed(Core):
             md.ordering = self.ordering(content.real)
         return self
 
-    def ordering(self, type):
+    @staticmethod
+    def ordering(type):
         """
         Get the attribute ordering defined in the specified
         XSD type information.

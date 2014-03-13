@@ -27,16 +27,15 @@ containing the prefix and the URI.  Eg: I{('tns', 'http://myns')}
 """
 
 from logging import getLogger
-import suds.metrics
-from suds import *
-from suds.sax import *
+from xml.sax import make_parser, InputSource, ContentHandler
+from xml.sax.handler import feature_external_ges
+from cStringIO import StringIO
+
 from suds.sax.document import Document
 from suds.sax.element import Element
 from suds.sax.text import Text
 from suds.sax.attribute import Attribute
-from xml.sax import make_parser, InputSource, ContentHandler
-from xml.sax.handler import feature_external_ges
-from cStringIO import StringIO
+
 
 log = getLogger(__name__)
 
@@ -61,7 +60,8 @@ class Handler(ContentHandler):
         top.append(node)
         self.push(node)
         
-    def mapPrefix(self, node, attribute):
+    @staticmethod
+    def mapPrefix(node, attribute):
         skip = False
         if attribute.name == 'xmlns':
             if len(attribute.value):
