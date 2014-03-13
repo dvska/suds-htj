@@ -132,7 +132,7 @@ class Definitions(WObject):
         @param options: An options dictionary.
         @type options: L{options.Options}
         """
-        log.debug('reading wsdl at: %s ...', url)
+        log.debug('reading WSDL at: %s ...', url)
         reader = DocumentReader(options)
         d = reader.open(url)
         root = d.root()
@@ -161,7 +161,7 @@ class Definitions(WObject):
         self.set_wrapped()
         for s in self.services:
             self.add_methods(s)
-        log.debug("wsdl at '%s' loaded:\n%s", url, self)
+        log.debug("WSDL at '%s' loaded:\n%s", url, self)
 
     @staticmethod
     def mktns(root):
@@ -256,6 +256,8 @@ class Definitions(WObject):
             for op in b.operations.values():
                 for body in (op.soap.input.body, op.soap.output.body):
                     body.wrapped = False
+                    if not self.options.unwrap:
+                        continue
                     if len(body.parts) != 1:
                         continue
                     for p in body.parts:
@@ -300,7 +302,7 @@ class Import(WObject):
         @param definitions: A definitions object.
         @type definitions: L{Definitions}
         """
-        WObject.__init__(self, root, definitions)
+        WObject.__init__(self, root)
         self.location = root.get('location')
         self.ns = root.get('namespace')
         self.imported = None
@@ -324,7 +326,7 @@ class Import(WObject):
         raise Exception('document at "%s" is unknown' % url)
 
     def import_definitions(self, definitions, d):
-        """ import/merge wsdl definitions """
+        """ import/merge WSDL definitions """
         definitions.types += d.types
         definitions.messages.update(d.messages)
         definitions.port_types.update(d.port_types)

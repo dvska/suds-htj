@@ -71,7 +71,7 @@ class Builder:
         history.append(type)
         resolved = type.resolve()
         value = None
-        if type.unbounded():
+        if type.multi_occurrence():
             value = []
         else:
             if len(resolved) > 0:

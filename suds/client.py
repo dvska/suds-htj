@@ -48,7 +48,7 @@ from sudsobject import Object
 log = getLogger(__name__)
 
 
-class Client(object):
+class Client(UnicodeMixin):
     """
     A lightweight web services client.
     I{(2nd generation)} API.

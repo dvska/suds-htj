@@ -51,12 +51,11 @@ class TypeNotFound(Exception):
 
 
 class BuildError(Exception):
-    msg = \
-        """
-        An error occured while building a instance of (%s).  As a result
-        the object you requested could not be constructed.  It is recommended
-        that you construct the type manually using a Suds object.
-        Please open a ticket with a description of this error.
+    msg = """
+        An error occurred while building an instance of (%s). As a result the
+        object you requested could not be constructed. It is recommended that
+        you construct the type manually using a Suds object. Please open a
+        ticket with a description of this error.
         Reason: %s
         """
 
@@ -65,11 +64,10 @@ class BuildError(Exception):
 
 
 class SoapHeadersNotPermitted(Exception):
-    msg = \
-        """
-        Method (%s) was invoked with SOAP headers.  The WSDL does not
-        define SOAP headers for this method.  Retry without the soapheaders
-        keyword argument.
+    msg = """
+        Method (%s) was invoked with SOAP headers. The WSDL does not define
+        SOAP headers for this method. Retry without the soapheaders keyword
+        argument.
         """
 
     def __init__(self, name):
